@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@reduxjs/toolkit": "^2.0.1",
+    "@types/react-native-sqlite-storage": "^6.0.5",
     "expo": "^49.0.21",
     "expo-status-bar": "~1.7.1",
     "firebase": "^10.7.1",
