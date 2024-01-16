@@ -37,7 +37,7 @@ const dbResultToArray = <T>(results: [ResultSet]): T[] => {
  * Boilerplate stuff
  * @param db DB object
  * @param tableName Table name
- * @param columns Column-based objects
+ * @param columns Columns constituting a table
  */
 export const createTable = async (db: SQLiteDatabase, tableName: string, columns: IColumn[]) => {
     let colInfos = '';  // all table info
