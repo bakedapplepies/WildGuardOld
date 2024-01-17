@@ -1,6 +1,7 @@
 import { Database, ResultSet, SQLiteDatabase, openDatabase } from "expo-sqlite";
+import * as AnimalDAO from "./animal.dao"
 
-const runQuery = (db: Database, query: string) =>
+export const runQuery = (db: Database, query: string) =>
   new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
