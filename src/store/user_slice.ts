@@ -19,3 +19,6 @@ const userSlice = createSlice({
         }
     }
 });
+
+export const levelUp = userSlice.actions.levelUp;
+export const userReducer = userSlice.reducer;
