@@ -1,14 +1,13 @@
 import { useEffect } from "react";
+import { createAnimal, getAnimals } from "./db/animal.dao";
 import {
-  createAnimal,
   createTable,
   deleteTable,
-  getAnimals,
   getDBConnection,
 } from "./db/db-service";
 import { models } from "./db/models";
-import { Text, View } from "react-native";
-// import { Text, View } from "native-base";
+import RootStack from "./navigation/RootStack";
+
 
 const Root = () => {
   useEffect(() => {
@@ -19,7 +18,7 @@ const Root = () => {
       const createTablesPromises = Object.keys(models).map((tableName) =>
         createTable(db, tableName, models[tableName])
       );
-      const res = await Promise.all(createTablesPromises);
+      await Promise.all(createTablesPromises);
 
       await createAnimal(db, {
         class_animal: "Luong cu",
@@ -28,15 +27,21 @@ const Root = () => {
         image: "abc.jpeg",
         description: "Ech ngoai dong",
       });
+      await createAnimal(db, {
+        class_animal: "Co vu",
+        common_name: "Khi",
+        species: "Khi",
+        image: "abc.jpeg",
+        description: "Khi an chuoi",
+      });
       const res1 = await getAnimals(db);
+      console.log(res1);
     };
     loadDB();
   }, []);
 
   return (
-    <View>
-      <Text>Hello</Text>
-    </View>
+    <RootStack/>
   );
 };
 

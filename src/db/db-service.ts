@@ -1,5 +1,5 @@
 import { Database, ResultSet, SQLiteDatabase, openDatabase } from "expo-sqlite";
-import * as AnimalDAO from "./animal.dao"
+// import * as AnimalDAO from "./animal.dao"
 
 export const runQuery = (db: Database, query: string) =>
   new Promise((resolve, reject) => {
@@ -37,20 +37,6 @@ export interface IColumn {
   notNull?: boolean;
   unique?: boolean;
 }
-
-/**
- * @param results : query from "SELECT" calls to DB
- * @returns constructed array of T objects from query
- */
-const dbResultToArray = <T>(results: [ResultSet]): T[] => {
-  const arr: T[] = [];
-  results.forEach((result) => {
-    for (let index = 0; index < result.rows.length; index++) {
-      arr.push(result.rows.item(index));
-    }
-  });
-  return arr;
-};
 
 /**
  * Boilerplate stuff
@@ -101,40 +87,40 @@ export const deleteTable = async (db: SQLiteDatabase, tableName: string) => {
   await runQuery(db, query);
 };
 
-export interface Animal {
-  id?: number;
-  common_name: string;
-  class_animal: string;
-  species: string;
-  image: URL | string; // TODO: Check URL need, and it it's compatible with SQLite
-  description: string;
+export const innerJoin = async (db: SQLiteDatabase,
+  tableName1: string, tableName2: string, selectedCols: string[], matchCol: string) => {
+
+  let cols: string = "";
+  selectedCols.forEach((col, index) => {
+    cols += col;
+    if (index != selectedCols.length - 1) cols += ", ";
+  });
+
+  const query = `
+    SELECT ${cols}
+    FROM ${tableName1}
+    INNER JOIN ${tableName2}
+    ON ${tableName1}.${matchCol} = ${tableName2}.${matchCol}
+  `;
+  console.log(query);
+  await runQuery(db, query);
 }
 
-export const createAnimal = async (db: SQLiteDatabase, animal: Animal): Promise<void> => {
-  const { common_name, class_animal, species, image, description } = animal;
+export const leftJoin = async (db: SQLiteDatabase,
+  tableName1: string, tableName2: string, selectedCols: string[], matchCol: string) => {
+
+  let cols: string = "";
+  selectedCols.forEach((col, index) => {
+    cols += col;
+    if (index != selectedCols.length - 1) cols += ", ";
+  });
 
   const query = `
-        INSERT INTO animals (common_name, class_animal, species, image, description)
-        VALUES (
-            '${common_name}',
-            '${class_animal}',
-            '${species}',
-            '${image}',
-            '${description}'
-        );
-    `;
-  console.log(
-    `=========[db-service - createAnimal]===========\n${query}\n========================================`
-  );
-  // const result = await db.executeSql(query);
+    SELECT ${cols}
+    FROM ${tableName1}
+    LEFT JOIN ${tableName2}
+    ON ${tableName1}.${matchCol} = ${tableName2}.${matchCol}
+  `;
+  console.log(query);
   await runQuery(db, query);
-};
-
-export const getAnimals = async (db: SQLiteDatabase): Promise<Animal[]> => {
-  const query = `
-        SELECT * FROM animals;
-    `;
-  const result = (await runQuery(db, query)) as any;
-  //   return dbResultToArray<Animal>(result);
-  return result._array as Animal[];
-};
+}
