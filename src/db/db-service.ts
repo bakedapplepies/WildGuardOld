@@ -87,9 +87,13 @@ export const deleteTable = async (db: SQLiteDatabase, tableName: string) => {
   await runQuery(db, query);
 };
 
-export const innerJoin = async (db: SQLiteDatabase,
-  tableName1: string, tableName2: string, selectedCols: string[], matchCol: string) => {
-
+export const innerJoin = async (
+  db: SQLiteDatabase,
+  tableName1: string,
+  tableName2: string,
+  selectedCols: string[],
+  matchCol: string
+) => {
   let cols: string = "";
   selectedCols.forEach((col, index) => {
     cols += col;
@@ -104,11 +108,17 @@ export const innerJoin = async (db: SQLiteDatabase,
   `;
   console.log(query);
   await runQuery(db, query);
-}
+};
 
-export const leftJoin = async (db: SQLiteDatabase,
-  tableName1: string, tableName2: string, selectedCols: string[], matchCol: string) => {
-
+export const leftJoin = async <T> (
+  db: SQLiteDatabase,
+  tableName1: string,
+  tableName2: string,
+  selectedCols: string[],
+  col1: string,
+  col2: string,
+  condition: string = ""
+): Promise<T> => {
   let cols: string = "";
   selectedCols.forEach((col, index) => {
     cols += col;
@@ -117,10 +127,11 @@ export const leftJoin = async (db: SQLiteDatabase,
 
   const query = `
     SELECT ${cols}
-    FROM ${tableName1}
+    FROM (${tableName1}
     LEFT JOIN ${tableName2}
-    ON ${tableName1}.${matchCol} = ${tableName2}.${matchCol}
+    ON ${tableName1}.${col1} = ${tableName2}.${col2})
+    ${condition};
   `;
   console.log(query);
-  await runQuery(db, query);
-}
+  return (await runQuery(db, query))._array as T;
+};

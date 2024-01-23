@@ -13,4 +13,14 @@ export const models: TableModels = {
     { name: "image", dataType: "TEXT", defaultValue: "''" },
     { name: "description", dataType: "TEXT", defaultValue: "''" },
   ],
+  students: [
+    { name: "id", primaryKey: true, dataType: "INTEGER", notNull: true },
+    { name: "name", dataType: "TEXT", defaultValue: "''" },
+    { name: "classroomId", dataType: "INTEGER"},
+  ],
+  classrooms: [
+    { name: "id", primaryKey: true, dataType: "INTEGER", notNull: true },
+    { name: "name", dataType: "TEXT", defaultValue: "''" },
+    { name: "teacher", dataType: "TEXT", defaultValue: "''" },
+  ]
 };
