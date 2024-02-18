@@ -4,11 +4,16 @@ import { runQuery } from "./db-service";
 export interface Animal {
   id?: number;
   common_name: string;
+  kingdom: string;
   class_animal: string;
   species: string;
-  image: URL | string; // TODO: Check URL need, and it it's compatible with SQLite
+  image: URL;  // TODO: May need to be converted to string for SQL
   description: string;
-}
+  populationDecreasing: boolean;
+  location: string;
+  status: string;
+}  // TODO: Add SQL arguments for new fields
+// TODO: try switching to enums or string variants
 
 export const createAnimal = async (db: SQLiteDatabase, animal: Animal): Promise<void> => {
   const { common_name, class_animal, species, image, description } = animal;

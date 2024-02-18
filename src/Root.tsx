@@ -24,15 +24,23 @@ const Root = () => {
         class_animal: "Luong cu",
         common_name: "Ech xanh",
         species: "Ech",
-        image: "abc.jpeg",
+        image: new URL(""),
         description: "Ech ngoai dong",
+        populationDecreasing: true,
+        kingdom: "Animalia",
+        location: "global",
+        status: "unknown"
       });
       await createAnimal(db, {
         class_animal: "Co vu",
         common_name: "Khi",
         species: "Khi",
-        image: "abc.jpeg",
+        image: new URL(""),
         description: "Khi an chuoi",
+        populationDecreasing: true,
+        kingdom: "Animalia",
+        location: "global",
+        status: "unknown"
       });
       const res1 = await getAnimals(db);
       console.log(res1);

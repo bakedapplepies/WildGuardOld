@@ -103,7 +103,8 @@ export const innerJoin = async (db: SQLiteDatabase,
     ON ${tableName1}.${matchCol} = ${tableName2}.${matchCol}
   `;
   console.log(query);
-  await runQuery(db, query);
+  const result = await runQuery(db, query) as any;
+  return result._array;
 }
 
 export const leftJoin = async (db: SQLiteDatabase,
@@ -122,5 +123,6 @@ export const leftJoin = async (db: SQLiteDatabase,
     ON ${tableName1}.${matchCol} = ${tableName2}.${matchCol}
   `;
   console.log(query);
-  await runQuery(db, query);
+  const result = await runQuery(db, query) as any;
+  return result._array;
 }

@@ -1,10 +1,13 @@
 import React from 'react'
 import GameSelect from './GameSelect';
+import { Box } from 'native-base';
 
 
 const GamesTab = () => {
   return (
-    <GameSelect/>
+    <Box flex={1}>
+      <GameSelect />
+    </Box>
   )
 }
 

@@ -1,10 +1,13 @@
 import React from 'react'
 import Home from './Home';
+import { Box } from 'native-base';
 
 
 const HomeTab = () => {
   return (
-    <Home/>
+    <Box flex={1}>
+      <Home />
+    </Box>
   )
 }
 
